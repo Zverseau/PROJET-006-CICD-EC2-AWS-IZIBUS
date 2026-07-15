@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError, tap } from 'rxjs';
 
-const API_URL = 'http://localhost:8080/api/v1/clients';
+const API_URL = `${environment.apiUrl}`;
 
 export interface ClientDto {
   id: number;
@@ -23,7 +23,7 @@ export class ClientService {
   private authHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token') || '';
     console.log('Using token for request:', token);
-    return new HttpHeaders({ 
+    return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
@@ -32,7 +32,7 @@ export class ClientService {
   getAllClients(): Observable<ClientDto[]> {
     const headers = this.authHeaders();
     console.log('Sending request to:', API_URL, 'with headers:', headers);
-    
+
     return this.http.get<ClientDto[]>(API_URL, { headers }).pipe(
       tap(response => console.log('Received clients response:', response)),
       catchError(this.handleError)
@@ -48,9 +48,9 @@ export class ClientService {
   deleteClient(id: number): Observable<void> {
     const url = `${API_URL}/${id}`;
     console.log('Deleting client at URL:', url);
-    
-    return this.http.delete<void>(url, { 
-      headers: this.authHeaders() 
+
+    return this.http.delete<void>(url, {
+      headers: this.authHeaders()
     }).pipe(
       tap(() => console.log(`Client ${id} deleted successfully`)),
       catchError(this.handleError)
@@ -59,7 +59,7 @@ export class ClientService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Une erreur inconnue est survenue';
-    
+
     if (error.error instanceof ErrorEvent) {
         // Erreur côté client
         errorMessage = `Erreur réseau : ${error.error.message}`;
@@ -76,7 +76,7 @@ export class ClientService {
         // Erreur serveur générale
         errorMessage = `Erreur serveur (${error.status}) : ${error.message}`;
     }
-    
+
     console.error('API Error:', error);
     return throwError(() => new Error(errorMessage));
 }

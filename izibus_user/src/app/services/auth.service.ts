@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
-const API_URL = 'http://localhost:8080'; // Remplace par ton URL backend
+const API_URL = `${environment.apiUrl}`; // Remplace par ton URL backend
 
 interface JwtPayload {
   sub: string;
@@ -21,7 +21,7 @@ export class AuthService {
 
   // Connexion Admin
   loginAdmin(credentials: { email: string, password: string }): Observable<any> {
-    return this.http.post(`${API_URL}/api/v1/login/admin`, credentials);
+    return this.http.post(`${API_URL}/v1/login/admin`, credentials);
   }
 
   getCurrentAdminId(): number | null {
@@ -54,12 +54,12 @@ export class AuthService {
 
   // Inscription Compagnie
   registerCompany(companyData: any): Observable<any> {
-    return this.http.post(`${API_URL}/api/v1/register/compagnie`,companyData);
+    return this.http.post(`${API_URL}/v1/register/compagnie`,companyData);
   }
 
   // Connexion Compagnie
   loginCompany(credentials: { email: string, password: string }): Observable<any> {
-    return this.http.post(`${API_URL}/api/v1/login/compagnie`, credentials);
+    return this.http.post(`${API_URL}/v1/login/compagnie`, credentials);
   }
 
   getCurrentCompanyId(): number | null {

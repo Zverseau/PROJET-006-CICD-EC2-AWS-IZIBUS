@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://localhost:8080/api/v1/paiements';
+const API_URL = '${environment.apiUrl}/v1/paiements';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,5 @@ export class PaiementService {
   getChiffreAffaireStatsByCompagnie(compagnieId: number): Observable<any> {
     return this.http.get(`${API_URL}/compagnie/${compagnieId}/stats`, { headers: this.authHeaders() });
   }
-  
+
 }

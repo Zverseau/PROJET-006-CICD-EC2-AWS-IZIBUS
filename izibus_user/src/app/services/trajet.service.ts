@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-const API_URL = 'http://localhost:8080/api/v1/trajets';
+const API_URL = '${environment.apiUrl}/v1/trajets';
 
 @Injectable({
   providedIn: 'root'
@@ -41,19 +41,19 @@ export class TrajetService {
       responseType: 'text'  // ← on attend du texte, pas du JSON
     }
   );
-  
+
   }
 
   getTrajetById(id: number): Observable<any> {
     // Solution de repli si l'intercepteur échoue
     const token = localStorage.getItem('access_token');
     let headers = new HttpHeaders();
-    
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
 
     return this.http.get(`${API_URL}/${id}`, { headers });
   }
-  
+
 }

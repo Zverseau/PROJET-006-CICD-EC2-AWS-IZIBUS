@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://localhost:8080/api/v1/reservations';
+const API_URL = '${environment.apiUrl}/v1/reservations';
 
 export interface ReservationDto {
   id: number;
@@ -15,14 +15,14 @@ export interface ReservationDto {
   nombrePlacesReservees: number;
   montantTotal: number;
   annulee: boolean;
-  
+
   // Ajouter les propriétés manquantes
   nomCompagnie?: string;
   lieuDepart: string;
   lieuArriver: string;
   dateTrajet: string;
   dateReservation: string;
-  
+
   // Propriétés pour les clients
   nomClient?: string;
   prenomClient?: string;
@@ -171,5 +171,5 @@ getGlobalStats(): Observable<ReservationStatDto> {
     );
   }
 
-  
+
 }
