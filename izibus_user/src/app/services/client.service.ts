@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError, tap } from 'rxjs';
+import { environment } from '../../environment/environment';
 
 const API_URL = `${environment.apiUrl}`;
 

@@ -2,8 +2,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environment/environment';
 
-const API_URL = '${environment.apiUrl}/v1/reservations';
+const API_URL = `${environment.apiUrl}/v1/reservations`;
 
 export interface ReservationDto {
   id: number;
