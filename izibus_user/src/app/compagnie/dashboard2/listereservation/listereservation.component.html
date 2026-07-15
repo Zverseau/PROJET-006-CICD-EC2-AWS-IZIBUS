@@ -1,0 +1,131 @@
+<div id="app">
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Réservations</h3>
+            <p class="text-subtitle text-muted">Liste de toutes les réservations de la compagnie</p>
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first text-md-end">
+            <!-- Bouton d'actualisation ajouté ici -->
+            <button (click)="loadReservations()"class="btn btn-gradient-primary">
+              <i class="bi bi-arrow-repeat me-2"></i> Actualiser
+            </button>
+            <button routerLink="/dash2/reserver" class="btn btn-gradient-primary">
+              <i class="bi bi-plus-circle me-2"></i> Nouvelle Réservation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="card glass-card">
+        <div class="card-header bg-transparent">
+          <h4 class="card-title">Liste des Réservations</h4>
+          
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-header">
+                  <th>Passager</th>
+                  <th>Téléphone</th>
+                  <th>Trajet</th>
+                  <th>Date trajet</th>
+                  <th>Places</th>
+                  <th>Date réservation</th>
+                  <th>Montant</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of reservations" class="table-row">
+                  <td>
+                    <div class="passager-info">
+                      <div class="fw-bold">{{ r.nomPassager }} {{ r.prenomPassager }}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <a href="tel:{{ r.telephonePassager }}" class="phone-link">
+                      <i class="bi bi-telephone me-2"></i> {{ r.telephonePassager }}
+                    </a>
+                  </td>
+                  <td>
+                    <div class="trajet-info">
+                      <div class="departure">
+                        <i class="bi bi-geo-alt-fill text-primary"></i> {{ r.lieuDepart }}
+                      </div>
+                      <div class="arrow">
+                        <i class="bi bi-arrow-right"></i>
+                      </div>
+                      <div class="arrival">
+                        <i class="bi bi-geo-alt-fill text-success"></i> {{ r.lieuArriver }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ r.dateTrajet | date:'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="places-container">
+                      <i class="bi bi-people me-2"></i> {{ r.nombrePlacesReservees }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ r.dateReservation | date:'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+                  <td class="fw-bold text-success">
+                    {{ r.montantTotal | number:'1.0-0' }} FCFA
+                  </td>
+                  <td class="text-center">
+                    <div class="d-flex justify-content-center gap-2">
+                      <button [routerLink]="['/dash2','modifierReservation', r.id]"
+                              class="btn btn-action btn-edit"
+                              title="Modifier">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button (click)="genererTicket(r.id)" 
+                              class="btn btn-action btn-ticket" 
+                              title="Ticket">
+                        <i class="bi bi-ticket-perforated"></i>
+                      </button>
+                      <button (click)="supprimerReservation(r.id)"
+                              class="btn btn-action btn-delete"
+                              title="Supprimer">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="reservations.length === 0" class="table-row">
+                  <td colspan="8" class="text-center text-muted py-5">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="bi bi-calendar-x"></i>
+                      </div>
+                      <h4 class="mt-3">Aucune réservation trouvée</h4>
+                      <p class="text-muted">Vous n'avez encore effectué aucune réservation</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

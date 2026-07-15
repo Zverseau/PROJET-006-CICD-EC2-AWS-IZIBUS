@@ -1,0 +1,145 @@
+<div class="magic-container">
+  <!-- Arrière-plan féerique -->
+  <div class="magic-bg">
+    <div class="fairy-light light-1"></div>
+    <div class="fairy-light light-2"></div>
+    <div class="fairy-light light-3"></div>
+  </div>
+  
+  <!-- Conteneur principal -->
+  <div class="magic-form-container">
+    <!-- Section illustrée féerique -->
+    <div class="magic-side">
+      <div class="magic-content">
+        <h1 class="app-title">IZIBUS</h1>
+        <p class="app-subtitle">Votre voyage vers l'excellence commence ici</p>
+        
+        <!-- Illustration féerique -->
+        <img src="assets/images/auth-fairy-illustration.jpg" alt="Illustration féerique" class="magic-illustration">
+        
+        <div class="features">
+          <div class="feature">
+            <i class="bi bi-rocket-takeoff"></i>
+            <span>Technologie de Pointe</span>
+          </div>
+          <div class="feature">
+            <i class="bi bi-shield-check"></i>
+            <span>Sécurité Absolue</span>
+          </div>
+          <div class="feature">
+            <i class="bi bi-speedometer"></i>
+            <span>Performance Maximale</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Formulaire d'inscription -->
+    <div class="form-side">
+      <div class="form-header">
+        <h2>Créez votre compte</h2>
+        <p>Rejoignez nous en quelques étapes</p>
+      </div>
+      
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="inscription-form">
+        <div class="form-group">
+          <input
+            type="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Adresse e-mail"
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <input
+            type="text"
+            formControlName="nomCompagnie"
+            class="form-input"
+            placeholder="Nom de la compagnie"
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <input
+            type="tel"
+            formControlName="telephoneCompagnie"
+            class="form-input"
+            placeholder="Téléphone (ex: +22812345678)"
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <textarea
+            formControlName="description"
+            class="form-input form-textarea"
+            placeholder="Description de la compagnie"
+            rows="3"
+          ></textarea>
+        </div>
+        
+        <div class="form-group file-upload-container">
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            id="logoUpload"
+            #fileInput
+          />
+          <label for="logoUpload" class="file-upload-label">
+            <i class="bi bi-cloud-arrow-up"></i>
+            Téléchargez le logo de votre compagnie
+          </label>
+          <div *ngIf="logoPreview" class="logo-preview">
+            <img [src]="logoPreview" alt="Aperçu du logo" />
+          </div>
+        </div>
+        
+        <div class="form-group password-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            placeholder="Mot de passe"
+            required
+          />
+          <span class="toggle-password" (click)="togglePasswordVisibility()">
+            <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </span>
+        </div>
+        
+        <div class="form-group password-group">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            class="form-input"
+            placeholder="Confirmez le mot de passe"
+            required
+          />
+          <span class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+            <i [ngClass]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </span>
+          <small *ngIf="registerForm.hasError('mismatch')" class="error-text">
+            Les mots de passe ne correspondent pas
+          </small>
+        </div>
+        
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="registerForm.invalid || uploadInProgress"
+        >
+          S'inscrire
+        </button>
+      </form>
+      
+      <p class="login-link">
+        Vous avez déjà un compte ?
+        <a routerLink="/auth/connexion">Connectez-vous ici</a>
+      </p>
+    </div>
+  </div>
+</div>

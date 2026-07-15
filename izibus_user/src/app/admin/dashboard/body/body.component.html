@@ -1,0 +1,123 @@
+<div id="dashboard" [class.dark-theme]="isDarkMode" [class.loading]="loading">
+  <!-- Fond dynamique -->
+  <div class="static-background"></div>
+
+  <div class="main-content">
+    <!-- Header avec bouton thématique -->
+    <div class="dashboard-header">
+      <h1 class="title">Tableau de Bord Administrateur</h1>
+      <div class="subtitle">Statistiques globales de l'application</div>
+      
+      <!-- Bouton interrupteur -->
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <i *ngIf="!isDarkMode" class="bi bi-moon-fill"></i>
+        <i *ngIf="isDarkMode" class="bi bi-sun-fill"></i>
+      </button>
+    </div>
+
+    <!-- Section Réservations -->
+    <h2 class="section-title">Réservations</h2>
+    <div class="stats-grid">
+      <!-- Réservations aujourd'hui -->
+      <div class="stat-card" [style.--hue]="220">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-day"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ reservationStats.today || 0 }}</div>
+          <div class="stat-label">Aujourd'hui</div>
+        </div>
+      </div>
+
+      <!-- Réservations cette semaine -->
+      <div class="stat-card" [style.--hue]="150">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-week"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ reservationStats.week || 0 }}</div>
+          <div class="stat-label">Cette semaine</div>
+        </div>
+      </div>
+
+      <!-- Réservations ce mois -->
+      <div class="stat-card" [style.--hue]="190">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-month"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ reservationStats.month || 0 }}</div>
+          <div class="stat-label">Ce mois</div>
+        </div>
+      </div>
+
+      <!-- Réservations cette année -->
+      <div class="stat-card" [style.--hue]="50">
+        <div class="stat-icon">
+          <i class="bi bi-calendar"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ reservationStats.year || 0 }}</div>
+          <div class="stat-label">Cette année</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Clients -->
+    <h2 class="section-title">Clients</h2>
+    <div class="stats-grid">
+      <!-- Total clients -->
+      <div class="stat-card" [style.--hue]="100">
+        <div class="stat-icon">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ clientStats.totalClients || 0 }}</div>
+          <div class="stat-label">Clients enregistrés</div>
+        </div>
+      </div>
+
+      <!-- Nouveaux clients aujourd'hui -->
+      <div class="stat-card" [style.--hue]="120">
+        <div class="stat-icon">
+          <i class="bi bi-person-plus"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ clientStats.today || 0 }}</div>
+          <div class="stat-label">Nouveaux aujourd'hui</div>
+        </div>
+      </div>
+
+      <!-- Nouveaux clients ce mois -->
+      <div class="stat-card" [style.--hue]="140">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-month"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ clientStats.thisMonth || 0 }}</div>
+          <div class="stat-label">Nouveaux ce mois</div>
+        </div>
+      </div>
+
+      <!-- Nouveaux clients cette année -->
+      <div class="stat-card" [style.--hue]="160">
+        <div class="stat-icon">
+          <i class="bi bi-calendar"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ clientStats.thisYear || 0 }}</div>
+          <div class="stat-label">Nouveaux cette année</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chargement (conservé) -->
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner">
+        <div class="spinner-sector spinner-sector-violet"></div>
+        <div class="spinner-sector spinner-sector-blue"></div>
+        <div class="spinner-sector spinner-sector-green"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<!-- liste-client.component.html -->
+<div id="app">
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Clients</h3>
+            <p class="text-subtitle text-muted">
+              Liste des clients ayant déjà réservé un trajet
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="card glass-card">
+        <div class="card-header bg-transparent">
+          <h4 class="card-title">Liste des Clients</h4>
+        </div>
+        <div class="card-body">
+          <!-- Chargement -->
+          <div *ngIf="isLoading" class="text-center p-5">
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-3">Chargement des clients...</p>
+          </div>
+          
+          <!-- Erreur -->
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          
+          <!-- Contenu principal -->
+          <div *ngIf="!isLoading && !errorMessage" class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-header">
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Téléphone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let c of clients" class="table-row">
+                  <td class="fw-bold">{{ c.nomClient }}</td>
+                  <td>{{ c.prenomClient }}</td>
+                  <td>
+                    <a href="tel:{{ c.telephoneClient }}" class="phone-link">
+                      <i class="bi bi-telephone me-2"></i> {{ c.telephoneClient }}
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="clients.length === 0" class="table-row">
+                  <td colspan="3" class="text-center text-muted py-5">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="bi bi-person-x"></i>
+                      </div>
+                      <h4 class="mt-3">Aucun client trouvé</h4>
+                      <p class="text-muted">Aucun client n'a encore effectué de réservation</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

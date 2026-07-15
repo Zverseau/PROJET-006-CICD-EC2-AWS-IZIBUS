@@ -1,0 +1,151 @@
+<!-- clients-list.component.html -->
+<div id="main">
+  <header class="mb-3">
+    <a href="#" class="burger-btn d-block d-xl-none">
+      <i class="bi bi-justify fs-3"></i>
+    </a>
+  </header>
+
+  <div class="page-heading">
+    <div class="page-title">
+      <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+          <h3>Liste des Clients</h3>
+          <p class="text-subtitle text-muted">Gestion des clients de l'application</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first text-md-end">
+          <button class="btn btn-gradient-primary" (click)="loadClients()">
+            <i class="bi bi-arrow-repeat me-2"></i> Actualiser
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="card glass-card">
+      <div class="card-header bg-transparent">
+        <h4 class="card-title">Clients</h4>
+        <div class="search-container">
+          <input 
+            type="text" 
+            placeholder="Rechercher par nom ou téléphone..." 
+            class="form-control search-input"
+            [(ngModel)]="searchTerm">
+          <i class="bi bi-search search-icon"></i>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Message d'erreur serveur -->
+        <div *ngIf="serverUnavailable" class="alert alert-danger mt-3">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-server me-3 display-4"></i>
+            <div>
+              <h4>Serveur inaccessible</h4>
+              <p>Impossible de se connecter au serveur backend. Veuillez vérifier que :</p>
+              <ul>
+                <li>Le serveur est démarré</li>
+                <li>Votre connexion internet est active</li>
+                <li>L'URL du serveur est correctement configurée</li>
+              </ul>
+              <button class="btn btn-outline-danger" (click)="loadClients()">
+                <i class="bi bi-arrow-repeat me-1"></i> Réessayer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message d'erreur standard -->
+        <div *ngIf="errorMessage && !serverUnavailable" class="alert alert-danger mt-3">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          <strong>Erreur :</strong> {{ errorMessage }}
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-danger" (click)="loadClients()">
+              <i class="bi bi-arrow-repeat me-1"></i> Réessayer
+            </button>
+          </div>
+        </div>
+
+        <!-- Chargement en cours -->
+        <div *ngIf="loading" class="text-center p-5">
+          <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+          <p class="mt-3">Chargement des clients...</p>
+        </div>
+
+        <!-- Liste vide ou aucun résultat de recherche -->
+        <div *ngIf="!loading && !errorMessage && filteredClients.length === 0" class="text-center p-5">
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="bi bi-people"></i>
+            </div>
+            <h4 class="mt-3">
+              {{ searchTerm ? 'Aucun résultat trouvé' : 'Aucun client enregistré' }}
+            </h4>
+            <p class="text-muted">
+              {{ searchTerm 
+                 ? 'Aucun client ne correspond à votre recherche "' + searchTerm + '"' 
+                 : 'La liste des clients est vide' }}
+            </p>
+            <button *ngIf="searchTerm" class="btn btn-outline-primary mt-2" (click)="searchTerm = ''">
+              Réinitialiser la recherche
+            </button>
+          </div>
+        </div>
+
+        <!-- Tableau des clients -->
+        <div *ngIf="!loading && !errorMessage && filteredClients.length > 0" class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr class="table-header">
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Vérifié</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of filteredClients" class="table-row">
+                <td>
+                  <div class="fw-bold">#{{ client.id }}</div>
+                </td>
+                <td>{{ client.nomClient }}</td>
+                <td>{{ client.prenomClient }}</td>
+                <td>
+                  <a href="tel:{{ client.telephoneClient }}" class="phone-link">
+                    <i class="bi bi-telephone me-1"></i> {{ client.telephoneClient }}
+                  </a>
+                </td>
+                <td>
+                  <span *ngIf="client.verified" class="badge bg-success rounded-pill px-3 py-2">
+                    <i class="bi bi-check-circle me-1"></i> Oui
+                  </span>
+                  <span *ngIf="!client.verified" class="badge bg-danger rounded-pill px-3 py-2">
+                    <i class="bi bi-x-circle me-1"></i> Non
+                  </span>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-action btn-reservation me-2" 
+                            [routerLink]="['/dash1/client', client.id, 'reservations']"
+                            title="Voir les réservations">
+                      <i class="bi bi-ticket"></i>
+                    </button>
+                    <button class="btn btn-action btn-delete" 
+                            (click)="deleteClient(client.id)"
+                            title="Supprimer le client">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

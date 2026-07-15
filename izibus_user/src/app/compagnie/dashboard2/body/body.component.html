@@ -1,0 +1,164 @@
+<div id="dashboard" [class.dark-theme]="isDarkMode" [class.loading]="isLoading">
+  <!-- Fond blanc uni -->
+  <div class="static-background"></div>
+
+  <div class="main-content">
+    <!-- Header simplifié -->
+    <div class="dashboard-header">
+      <h1 class="title">Tableau de Bord Compagnie</h1>
+      <div class="subtitle">{{ currentDate | date:'d MMMM yyyy' }}</div>
+
+      <!-- Bouton interrupteur -->
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <i *ngIf="!isDarkMode" class="bi bi-moon-fill"></i>
+        <i *ngIf="isDarkMode" class="bi bi-sun-fill"></i>
+      </button>
+
+    </div>
+
+    <!-- Carte Compagnie -->
+    <div class="glass-card company-card">
+      <div class="company-header">
+        <div class="logo-container">
+          <div class="logo-glow">
+            <img *ngIf="compagnie.logoCompagnie" [src]="compagnie.logoCompagnie" alt="Logo">
+            <div *ngIf="!compagnie.logoCompagnie" class="logo-placeholder">
+              <i class="bi bi-building"></i>
+            </div>
+          </div>
+        </div>
+        <div class="company-info">
+          <h2 class="company-name">{{ compagnie.nomCompagnie }}</h2>
+        </div>
+      </div>
+      
+      <div class="company-details">
+        <div class="detail-item">
+          <i class="bi bi-envelope-fill"></i>
+          <span>{{ compagnie.email }}</span>
+        </div>
+        <div class="detail-item">
+          <i class="bi bi-telephone-fill"></i>
+          <span>{{ compagnie.telephoneCompagnie }}</span>
+        </div>
+        <div class="detail-item">
+          <i class="bi bi-card-text"></i>
+          <span class="description">{{ compagnie.description }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Réservations -->
+    <h2 class="section-title">Réservations</h2>
+    <div class="stats-grid">
+      <!-- Carte Aujourd'hui -->
+      <div class="stat-card" [style.--hue]="220">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-day"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.today || 0 }}</div>
+          <div class="stat-label">Aujourd'hui</div>
+        </div>
+      </div>
+
+      <!-- Carte Semaine -->
+      <div class="stat-card" [style.--hue]="150">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-week"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.week || 0 }}</div>
+          <div class="stat-label">Cette semaine</div>
+          <div class="stat-subtext">Semaine {{ currentWeek }}</div>
+        </div>
+      </div>
+
+      <!-- Carte Mois -->
+      <div class="stat-card" [style.--hue]="190">
+        <div class="stat-icon">
+          <i class="bi bi-calendar-month"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.month || 0 }}</div>
+          <div class="stat-label">Ce mois</div>
+          <div class="stat-subtext">{{ currentDate | date:'MMMM' }}</div>
+        </div>
+      </div>
+
+      <!-- Carte Année -->
+      <div class="stat-card" [style.--hue]="50">
+        <div class="stat-icon">
+          <i class="bi bi-calendar"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.year || 0 }}</div>
+          <div class="stat-label">Cette année</div>
+          <div class="stat-subtext">{{ currentDate | date:'yyyy' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Chiffre d'affaires -->
+    <h2 class="section-title">Chiffre d'affaires</h2>
+    <div class="stats-grid">
+      <!-- Aujourd'hui -->
+      <div class="stat-card" [style.--hue]="100">
+        <div class="stat-icon">
+          <i class="bi bi-cash-coin"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ caStats.aujourdhui | number:'1.0-0' }} FCFA</div>
+          <div class="stat-label">Aujourd'hui</div>
+        </div>
+      </div>
+
+      <!-- Cette semaine -->
+      <div class="stat-card" [style.--hue]="120">
+        <div class="stat-icon">
+          <i class="bi bi-graph-up"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ caStats.cetteSemaine | number:'1.0-0' }} FCFA</div>
+          <div class="stat-label">Cette semaine</div>
+        </div>
+      </div>
+
+      <!-- Ce mois -->
+      <div class="stat-card" [style.--hue]="140">
+        <div class="stat-icon">
+          <i class="bi bi-wallet2"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ caStats.ceMois | number:'1.0-0' }} FCFA</div>
+          <div class="stat-label">Ce mois</div>
+        </div>
+      </div>
+
+      <!-- Cette année -->
+      <div class="stat-card" [style.--hue]="160">
+        <div class="stat-icon">
+          <i class="bi bi-bar-chart-line"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ caStats.cetteAnnee | number:'1.0-0' }} FCFA</div>
+          <div class="stat-label">Cette année</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chargement -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="spinner">
+        <div class="spinner-sector spinner-sector-violet"></div>
+        <div class="spinner-sector spinner-sector-blue"></div>
+        <div class="spinner-sector spinner-sector-green"></div>
+      </div>
+    </div>
+
+    <!-- Erreur -->
+    <div *ngIf="errorMessage" class="error-notification">
+      <i class="bi bi-exclamation-triangle"></i> {{ errorMessage }}
+    </div>
+  </div>
+</div>

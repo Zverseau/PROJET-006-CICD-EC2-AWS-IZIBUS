@@ -1,0 +1,130 @@
+<!-- liste-reservation-clients.component.html -->
+<div id="app">
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Réservations Clients</h3>
+            <p class="text-subtitle text-muted">Réservations faites par des clients existants</p>
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first text-md-end">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="card glass-card">
+        <div class="card-header bg-transparent">
+          <h4 class="card-title">Liste des Réservations</h4>
+        </div>
+        <div class="card-body">
+          <div *ngIf="isLoading" class="text-center p-5">
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-3">Chargement des réservations...</p>
+          </div>
+          
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          
+          <div *ngIf="!isLoading" class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-header">
+                  <th>Client</th>
+                  <th>Téléphone</th>
+                  <th>Trajet</th>
+                  <th>Date trajet</th>
+                  <th>Places</th>
+                  <th>Date réservation</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of reservations" class="table-row">
+                  <td>
+                    <div class="passager-info">
+                      <div class="fw-bold">{{ r.nomClient }} {{ r.prenomClient }}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <a href="tel:{{ r.telephoneClient }}" class="phone-link">
+                      <i class="bi bi-telephone me-2"></i> {{ r.telephoneClient }}
+                    </a>
+                  </td>
+                  <td>
+                    <div class="trajet-info">
+                      <div class="departure">
+                        <i class="bi bi-geo-alt-fill text-primary"></i> {{ r.lieuDepart }}
+                      </div>
+                      <div class="arrow">
+                        <i class="bi bi-arrow-right"></i>
+                      </div>
+                      <div class="arrival">
+                        <i class="bi bi-geo-alt-fill text-success"></i> {{ r.lieuArriver }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ r.dateTrajet | date:'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="places-container">
+                      <i class="bi bi-people me-2"></i> {{ r.nombrePlacesReservees }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ r.dateReservation | date:'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+                  <td class="fw-bold text-success">
+                    {{ r.montantTotal | number:'1.0-0' }} FCFA
+                  </td>
+                  <td>
+                    <span [ngClass]="{
+                      'badge badge-confirmed': !r.annulee,
+                      'badge badge-cancelled': r.annulee
+                    }">
+                      <i [ngClass]="{
+                        'bi bi-check-circle-fill me-1': !r.annulee,
+                        'bi bi-x-circle-fill me-1': r.annulee
+                      }"></i>
+                      {{ r.annulee ? 'Annulée' : 'Confirmée' }}
+                    </span>
+                  </td>
+                </tr>
+                <tr *ngIf="reservations.length === 0" class="table-row">
+                  <td colspan="8" class="text-center text-muted py-5">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="bi bi-calendar-x"></i>
+                      </div>
+                      <h4 class="mt-3">Aucune réservation trouvée</h4>
+                      <p class="text-muted">Aucun client n'a encore effectué de réservation pour vos trajets</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

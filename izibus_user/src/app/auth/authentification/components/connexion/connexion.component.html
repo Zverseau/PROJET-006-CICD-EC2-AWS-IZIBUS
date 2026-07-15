@@ -1,0 +1,86 @@
+<!-- connexion.component.html -->
+<div class="magic-container">
+  <!-- Arrière-plan féerique -->
+  <div class="magic-bg">
+    <div class="fairy-light light-1"></div>
+    <div class="fairy-light light-2"></div>
+    <div class="fairy-light light-3"></div>
+  </div>
+  
+  <!-- Conteneur principal -->
+  <div class="magic-form-container">
+    <!-- Section illustrée féerique -->
+    <div class="magic-side">
+      <div class="magic-content">
+        <h1 class="app-title">IZIBUS</h1>
+        <p class="app-subtitle">Votre voyage vers l'excellence commence ici</p>
+        
+        <!-- Illustration féerique -->
+        <img src="assets/images/auth-fairy-illustration.jpg" alt="Illustration féerique" class="magic-illustration">
+        
+        <div class="features">
+          <div class="feature">
+            <i class="bi bi-key"></i>
+            <span>Accès Sécurisé</span>
+          </div>
+          <div class="feature">
+            <i class="bi bi-shield-lock"></i>
+            <span>Protection renforcée</span>
+          </div>
+          <div class="feature">
+            <i class="bi bi-lightning"></i>
+            <span>Connexion Instantanée</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Formulaire de connexion -->
+    <div class="form-side">
+      <div class="form-header">
+        <h2>Bienvenue</h2>
+        <p>Accédez à votre espace</p>
+      </div>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="connexion-form">
+        <div class="form-group">
+          <input
+            type="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Adresse e-mail"
+            required
+          />
+        </div>
+        
+        <div class="form-group password-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            placeholder="Mot de passe"
+            required
+          />
+          <span class="toggle-password" (click)="togglePasswordVisibility()">
+            <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </span>
+        </div>
+        
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="loginForm.invalid"
+        >
+          Se connecter
+        </button>
+      </form>
+      
+      <div class="link-group">
+        <p class="link-text">
+          Pas encore de compte ? 
+          <a routerLink="/auth/inscription">inscrivez-vous ici</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

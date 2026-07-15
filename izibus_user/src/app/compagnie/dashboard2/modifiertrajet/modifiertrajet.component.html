@@ -1,0 +1,140 @@
+<div id="app">
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>Modifier Trajet</h3>
+                        <p class="text-subtitle text-muted">Mettre à jour les détails d'un trajet existant</p>
+                    </div>
+                </div>
+            </div>
+
+            <section id="multiple-column-form">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card modern-card">
+                            <div class="card-header modern-header">
+                                <h4 class="card-title m-0">
+                                    <i class="bi bi-pencil-square me-2"></i>Modifier le trajet N-{{trajet?.id}}
+                                </h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <form class="modern-form" (ngSubmit)="onSubmit()">
+                                        <div class="row">
+                                            <!-- Lieu de départ -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-geo-alt me-2"></i>Lieu de départ
+                                                    </label>
+                                                    <input type="text" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.lieuDepart" name="lieuDepart" 
+                                                        placeholder="Ex: Dapaong" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Lieu d'arrivée -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-geo-alt-fill me-2"></i>Lieu d'arrivée
+                                                    </label>
+                                                    <input type="text" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.lieuArriver" name="lieuArriver" 
+                                                        placeholder="Ex: Lomé" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Date du trajet -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-calendar me-2"></i>Date du trajet
+                                                    </label>
+                                                    <input type="date" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.date" name="date" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Heure de départ -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-clock me-2"></i>Heure de départ
+                                                    </label>
+                                                    <input type="time" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.heureDepart" name="heureDepart" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Heure d'arrivée -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-clock-fill me-2"></i>Heure d'arrivée
+                                                    </label>
+                                                    <input type="time" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.heureArriver" name="heureArriver" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Nombre de places -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-people me-2"></i>Nombre de places
+                                                    </label>
+                                                    <input type="number" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.nombrePlaces" name="nombrePlaces" 
+                                                        placeholder="Ex: 50" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Prix -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-currency-exchange me-2"></i>Prix (FCFA)
+                                                    </label>
+                                                    <input type="number" class="form-control modern-input"
+                                                        [(ngModel)]="trajet.prix" name="prix" 
+                                                        placeholder="Ex: 1000 FCFA" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Boutons -->
+                                            <div class="col-12 d-flex justify-content-end mt-4">
+                                                <button type="submit" class="btn btn-modern-primary me-3"
+                                                        [disabled]="isSubmitting">
+                                                    <span *ngIf="!isSubmitting">
+                                                        <i class="bi bi-check-circle me-2"></i>Enregistrer
+                                                    </span>
+                                                    <span *ngIf="isSubmitting" class="d-flex align-items-center">
+                                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                        Enregistrement...
+                                                    </span>
+                                                </button>
+                                                <button type="button" class="btn btn-modern-light"
+                                                        routerLink="/dash2/listeTrajet">
+                                                    <i class="bi bi-x-circle me-2"></i>Annuler
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

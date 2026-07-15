@@ -1,0 +1,99 @@
+<!-- compagnie-trajets.component.html -->
+<div id="app">
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <!-- Affichage conditionnel du nom -->
+            <div *ngIf="compagnieLoading" class="d-inline-block">
+              <div class="spinner-grow spinner-grow-sm text-primary" role="status"></div>
+              <span class="ms-2">Chargement du nom...</span>
+            </div>
+            
+            <h3 *ngIf="!compagnieLoading">Trajets de {{compagnieName}}</h3>
+            <p class="text-subtitle text-muted">Liste des trajets proposés par cette compagnie</p>
+          </div>
+
+          <!-- Nouveau bouton de retour -->
+          <div class="col-12 col-md-6 order-md-2 order-first text-md-end mb-3 mb-md-0">
+            <button routerLink="/dash1/compagnies" class="btn btn-gradient-primary">
+              <i class="bi bi-arrow-left me-2"></i> Retour aux compagnies
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="card glass-card">
+        <div class="card-header bg-transparent">
+          <h4 class="card-title">Liste des Trajets</h4>
+          <div class="search-container">
+            <input type="text" placeholder="Rechercher un trajet..." class="form-control search-input">
+            <i class="bi bi-search search-icon"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center p-5">
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-3">Chargement des trajets...</p>
+          </div>
+
+          <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-header">
+                  <th>Départ</th>
+                  <th>Arrivée</th>
+                  <th>Date</th>
+                  <th>Heure départ</th>
+                  <th>Heure arrivée</th>
+                  <th>Prix</th>
+                  <th>Places</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let trajet of trajets" class="table-row">
+                  <td class="fw-bold">{{ trajet.lieuDepart }}</td>
+                  <td class="fw-bold">{{ trajet.lieuArriver }}</td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ trajet.date | date:'dd/MM/yyyy' }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="time-container">
+                      <i class="bi bi-clock me-2"></i> {{ trajet.heureDepart }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="time-container">
+                      <i class="bi bi-clock me-2"></i> {{ trajet.heureArriver }}
+                    </div>
+                  </td>
+                  <td class="fw-bold text-success">
+                    {{ trajet.prix | currency:'XOF':'symbol':'1.0-0' }}
+                  </td>
+                  <td>
+                    <div class="places-container">
+                      <i class="bi bi-people me-2"></i> {{ trajet.nombrePlaces }}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

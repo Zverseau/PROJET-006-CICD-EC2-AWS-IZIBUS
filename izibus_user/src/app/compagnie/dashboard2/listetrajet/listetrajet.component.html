@@ -1,0 +1,122 @@
+<!-- listetrajet.component.html -->
+<div id="app">
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Trajets</h3>
+            <p class="text-subtitle text-muted">Liste des trajets programmés</p>
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first text-md-end">
+            <button routerLink="/dash2/ajouterTrajet" class="btn btn-gradient-primary">
+              <i class="bi bi-plus-circle me-2"></i> Nouveau Trajet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="card glass-card">
+        <div class="card-header bg-transparent">
+          <h4 class="card-title">Liste des Trajets</h4>
+          <div class="search-container">
+            <input type="text" placeholder="Rechercher un trajet..." class="form-control search-input">
+            <i class="bi bi-search search-icon"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- États de chargement -->
+          <div *ngIf="isLoading" class="text-center p-5">
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-3">Chargement des trajets...</p>
+          </div>
+          
+          <!-- Gestion des erreurs -->
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          
+          <!-- Contenu principal -->
+          <div *ngIf="!isLoading" class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr class="table-header">
+                  <th>Départ</th>
+                  <th>Arrivée</th>
+                  <th>Date</th>
+                  <th>Heure Départ</th>
+                  <th>Places</th>
+                  <th>Prix</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let trajet of trajets" class="table-row">
+                  <td class="fw-bold text-primary">
+                    <i class="bi bi-geo-alt me-2"></i> {{ trajet.lieuDepart }}
+                  </td>
+                  <td class="fw-bold text-primary">
+                    <i class="bi bi-geo-alt me-2"></i> {{ trajet.lieuArriver }}
+                  </td>
+                  <td>
+                    <div class="date-container">
+                      <i class="bi bi-calendar me-2"></i> {{ trajet.date ? (trajet.date | date:'dd/MM/yyyy') : 'N/A' }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="time-container">
+                      <i class="bi bi-clock me-2"></i> {{ trajet.heureDepart || 'N/A' }}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="places-container">
+                      <i class="bi bi-people me-2"></i> {{ trajet.nombrePlaces }}
+                    </div>
+                  </td>
+                  <td class="fw-bold text-success">
+                    {{ trajet.prix ? (trajet.prix | number:'1.0-0') : 'N/A' }} FCFA
+                  </td>
+                  <td class="text-center">
+                    <div class="d-flex justify-content-center gap-2">
+                      <button [routerLink]="['/dash2', 'modifierTrajet', trajet.id]"
+                              class="btn btn-action btn-edit">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button (click)="supprimerTrajet(trajet.id)"
+                              class="btn btn-action btn-delete">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="trajets.length === 0 && !isLoading" class="table-row">
+                  <td colspan="7" class="text-center text-muted py-5">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="bi bi-calendar-x"></i>
+                      </div>
+                      <h4 class="mt-3">Aucun trajet trouvé</h4>
+                      <p class="text-muted">Aucun trajet n'a été programmé pour le moment</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

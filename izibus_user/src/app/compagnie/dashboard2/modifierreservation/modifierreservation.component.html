@@ -1,0 +1,177 @@
+<div id="app">
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>Modifier Réservation</h3>
+                        <p class="text-subtitle text-muted">Mettre à jour les détails d'une réservation</p>
+                    </div>
+                </div>
+            </div>
+
+            <section id="multiple-column-form">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card modern-card">
+                            <div class="card-header modern-header">
+                                <h4 class="card-title m-0">
+                                    <i class="bi bi-pencil-square me-2"></i>Modifier la réservation N-{{ id }}
+                                </h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <!-- Indicateur de chargement -->
+                                    <div *ngIf="!initialLoadComplete" class="text-center p-5">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Chargement...</span>
+                                        </div>
+                                        <p class="mt-3">Chargement des données de la réservation...</p>
+                                    </div>
+
+                                    <!-- Formulaire (affiché seulement après le chargement) -->
+                                    <form *ngIf="initialLoadComplete" (ngSubmit)="onSubmit()" class="modern-form">
+                                        <div class="row gy-4">
+                                            <!-- Informations passager -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-person me-2"></i>Nom du passager *
+                                                    </label>
+                                                    <input type="text" class="form-control modern-input"
+                                                        [(ngModel)]="nomPassager" name="nomPassager" 
+                                                        placeholder="Ex: Steve" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-person me-2"></i>Prénom du passager *
+                                                    </label>
+                                                    <input type="text" class="form-control modern-input"
+                                                        [(ngModel)]="prenomPassager" name="prenomPassager" 
+                                                        placeholder="Ex: Zbest" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-telephone me-2"></i>Téléphone *
+                                                    </label>
+                                                    <input type="tel" class="form-control modern-input"
+                                                        [(ngModel)]="telephonePassager" name="telephonePassager"
+                                                        pattern="\+?[0-9]{8,15}" required 
+                                                        placeholder="Ex: +22890123456">
+                                                </div>
+                                            </div>
+
+                                            <!-- Choix du trajet -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-geo-alt me-2"></i>Trajet *
+                                                    </label>
+                                                    <select class="form-select modern-input"
+                                                        [(ngModel)]="selectedTrajetId"
+                                                        (ngModelChange)="onTrajetChange()"
+                                                        name="selectedTrajetId"
+                                                        [disabled]="isLoading"
+                                                        required>
+                                                        <option [ngValue]="null">-- Choisir un trajet --</option>
+                                                        <option *ngFor="let t of trajetsDisponibles"
+                                                                [ngValue]="t.id">
+                                                            {{ t.lieuDepart }} → {{ t.lieuArriver }}
+                                                            ({{ t.date | date:'dd/MM/yyyy' }} à {{ t.heureDepart }})
+                                                            - {{ t.prix | number:'1.0-0' }} FCFA
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Nombre de places -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label modern-label">
+                                                        <i class="bi bi-people me-2"></i>Nombre de places *
+                                                    </label>
+                                                    <input type="number" class="form-control modern-input"
+                                                        [(ngModel)]="nombrePlacesReservees"
+                                                        (ngModelChange)="recalculerMontant()"
+                                                        name="nombrePlacesReservees"
+                                                        [min]="1" [max]="placesDisponibles" 
+                                                        [disabled]="isLoading"
+                                                        required>
+                                                    <div *ngIf="placesDisponibles" class="form-text text-end mt-1">
+                                                        Places disponibles: {{ placesDisponibles }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Prix unitaire & total -->
+                                            <div class="col-md-6">
+                                                <div class="modern-price-card">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <span class="modern-price-label">
+                                                            <i class="bi bi-tag me-2"></i>Prix unitaire:
+                                                        </span>
+                                                        <strong class="modern-price-value">
+                                                            {{ prixUnitaire | number:'1.0-0' }} FCFA
+                                                        </strong>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="modern-price-label">
+                                                            <i class="bi bi-cash-stack me-2"></i>Total:
+                                                        </span>
+                                                        <strong class="modern-price-total">
+                                                            {{ montantTotal | number:'1.0-0' }} FCFA
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Affichage des erreurs -->
+                                            <div *ngIf="errorMessage" class="col-12">
+                                                <div class="alert alert-danger alert-dismissible fade show">
+                                                    {{ errorMessage }}
+                                                    <button type="button" class="btn-close" 
+                                                            (click)="errorMessage = ''" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Boutons -->
+                                            <div class="col-12 d-flex justify-content-end mt-3">
+                                                <button type="submit" class="btn btn-modern-primary me-3" 
+                                                        [disabled]="isLoading || !selectedTrajetId">
+                                                    <span *ngIf="!isLoading">
+                                                        <i class="bi bi-check-circle me-2"></i>Enregistrer
+                                                    </span>
+                                                    <span *ngIf="isLoading" class="d-flex align-items-center">
+                                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                        Enregistrement...
+                                                    </span>
+                                                </button>
+                                                <button type="button" class="btn btn-modern-light"
+                                                        [disabled]="isLoading"
+                                                        (click)="router.navigate(['/dash2','listeReservation'])">
+                                                    <i class="bi bi-x-circle me-2"></i>Annuler
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
