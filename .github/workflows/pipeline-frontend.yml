@@ -36,7 +36,9 @@ jobs:
           file: izibus_user/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/izibus_user:latest,${{ secrets.DOCKERHUB_USERNAME }}/izibus_user:${{ steps.extract_version.outputs.VERSION }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/izibus_frontend-ec2:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/izibus_frontend-ec2:${{ steps.extract_version.outputs.VERSION }}
   deploy:
     name: Deploy Frontend
     runs-on: ubuntu-latest
