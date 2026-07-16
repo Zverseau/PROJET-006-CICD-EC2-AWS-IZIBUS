@@ -64,6 +64,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Unit Tests
+        env:
+          MYSQL_DATABASE: izibus
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
+          APP_EXPIRATION_TIME: 86400000
         run: |
           cd izibus-api
           chmod +x mvnw
