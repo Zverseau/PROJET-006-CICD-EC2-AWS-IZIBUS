@@ -27,7 +27,7 @@ services:
     restart: always
 
     env_file:
-      - .env
+      - izibus-api/.env
 
     ports:
       - "8080:8080"

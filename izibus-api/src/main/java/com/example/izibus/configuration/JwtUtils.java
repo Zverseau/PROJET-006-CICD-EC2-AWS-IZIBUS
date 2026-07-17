@@ -22,7 +22,7 @@ public class JwtUtils {
     @Value("${app.secret-key}")
     private String secretKey;
 
-    @Value("${app.expirationTime}")
+    @Value("${app.expiration-time}")
     private Long expirationTime;
 
     // Générer un token à partir de l'email
