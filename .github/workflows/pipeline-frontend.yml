@@ -1,4 +1,4 @@
-name: izibus Frontend Pipeline
+name: izibus Frontend Pipeline.
 
 on:
   push:
