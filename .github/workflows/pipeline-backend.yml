@@ -180,6 +180,11 @@ jobs:
           scp docker-compose.monitoring.yml \
           ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/docker-compose.monitoring.yml
 
+      - name: Copy monitoring configuration
+        run: |
+          scp -o StrictHostKeyChecking=no -r monitoring \
+          ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:~/ci-cd/
+
       - name: Deploy Application
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << EOF
