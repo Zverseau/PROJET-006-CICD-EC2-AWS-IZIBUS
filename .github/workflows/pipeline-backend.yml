@@ -175,6 +175,11 @@ jobs:
           scp -o StrictHostKeyChecking=no docker-compose.yml \
           ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/docker-compose.yml
 
+      - name: Copy monitoring compose
+        run: |
+          scp docker-compose.monitoring.yml \
+          ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/docker-compose.monitoring.yml
+
       - name: Deploy Application
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << EOF
@@ -183,6 +188,9 @@ jobs:
   
           docker compose pull -q
           docker compose up -d
+          
+          docker compose -f docker-compose.monitoring.yml pull
+          docker compose -f docker-compose.monitoring.yml up -d
   
           EOF
           
