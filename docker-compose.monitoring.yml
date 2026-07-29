@@ -92,4 +92,4 @@ volumes:
 networks:
   monitoring-network:
     external: true
-    name: izibus_ec2_spring-network
+    name: ci-cd_spring-network
